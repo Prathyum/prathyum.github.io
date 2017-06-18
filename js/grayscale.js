@@ -32,13 +32,13 @@ $('.navbar-collapse ul li a').click(function() {
     $(".navbar-collapse").collapse('hide');
 });
 
-to
-// locate you.
-var map, infoWindow;
-function initMap() {
-  map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: -34.397, lng: 150.644},
-    zoom: 6
+// Google Maps Scripts
+var map = null;
+// When the window has finished loading create our google map below
+google.maps.event.addDomListener(window, 'load', init);
+google.maps.event.addDomListener(window, 'resize', function() {
+    map.setCenter(new google.maps.LatLng(-34.397, 150.644));
+});
 
 function init() {
     // Basic options for a simple Google Map
@@ -48,7 +48,7 @@ function init() {
         zoom: 15,
 
         // The latitude and longitude to center the map (always required)
-        center: new google.maps.LatLng(-34.397, 150.644), // Chennai
+        center: new google.maps.LatLng(-34.397, 150.644), // New York
 
         // Disables the default Google Maps UI components
         disableDefaultUI: true,
@@ -169,27 +169,10 @@ function init() {
 
     // Get the HTML DOM element that will contain your map
     // We are using a div with id="map" seen below in the <body>
-  
-  // Try HTML5 geolocation.
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-
-      infoWindow.setPosition(pos);
-      infoWindow.setContent('Location found.');
-      infoWindow.open(map);
-      map.setCenter(pos);
-    }, function() {
-      handleLocationError(true, infoWindow, map.getCenter());
-    });
-  } else {
-   
+    var mapElement = document.getElementById('map');
 
     // Create the Google Map using out element and options defined above
-    
+    map = new google.maps.Map(mapElement, mapOptions);
 
     // Custom Map Marker Icon - Customize the map-marker.png file to customize your icon
     var image = 'img/map-marker.png';
